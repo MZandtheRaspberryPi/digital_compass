@@ -1,0 +1,6 @@
+[submodule "i2c/Adafruit_BNO055"]
+	path = i2c/Adafruit_BNO055
+	url = git@github.com:MZandtheRaspberryPi/Adafruit_BNO055.git
+[submodule "i2c/Adafruit_Sensor"]
+	path = i2c/Adafruit_Sensor
+	url = git@github.com:MZandtheRaspberryPi/Adafruit_Sensor.git
