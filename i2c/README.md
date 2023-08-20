@@ -15,3 +15,14 @@ docker run -it --device /dev/i2c-1 i2c_test
 70: -- -- -- -- -- -- -- --
 
 ```
+
+# configuring ubuntu
+https://hackaday.com/2022/02/01/did-you-know-that-the-raspberry-pi-4-has-more-spi-i2c-uart-ports/
+https://forums.raspberrypi.com//viewtopic.php?f=29&t=302381
+https://forums.raspberrypi.com/viewtopic.php?t=248439
+
+dtoverlay=i2c5
+
+# Enabling I2C3, with SDA on GPIO4 and SCL on GPIO5
+nano /boot/firmware/config.txt
+dtoverlay=i2c3,pins_4_5
