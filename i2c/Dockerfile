@@ -13,6 +13,9 @@ COPY Adafruit_BNO055/utility /Adafruit_BNO055/include/utility
 COPY Adafruit_Sensor/Adafruit_Sensor.h /Adafruit_BNO055/include/Adafruit_Sensor.h
 COPY Adafruit_Sensor/Adafruit_Sensor.cpp /Adafruit_BNO055/src/Adafruit_Sensor.cpp
 
+COPY Adafruit_BNO055/pi4_i2c_bus.h /Adafruit_BNO055/include/pi4_i2c_bus.h
+COPY Adafruit_BNO055/pi4_i2c_bus.cpp /Adafruit_BNO055/src/pi4_i2c_bus.cpp
+
 RUN ls /Adafruit_BNO055/include
 
 WORKDIR /Adafruit_BNO055
@@ -21,6 +24,8 @@ RUN mkdir build
 WORKDIR /Adafruit_BNO055/build
 RUN cmake ..
 RUN make
+RUN ls -ltrh
 
+STOPSIGNAL SIGINT
 
-ENTRYPOINT ["i2cdetect", "-y", "1"]
+ENTRYPOINT ["/Adafruit_BNO055/build/read_from_sensor"]

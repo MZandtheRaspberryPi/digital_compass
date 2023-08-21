@@ -1,7 +1,19 @@
-#include <Wire.h>
+#include <iostream>
+#include "pi4_i2c_bus.h"
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BNO055.h>
 #include <utility/imumaths.h>
+
+#include <signal.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
+
+void my_handler(int s)
+{
+  printf("Caught signal %d\n", s);
+  exit(1);
+}
 
 /* This driver uses the Adafruit unified sensor library (Adafruit_Sensor),
    which provides a common 'type' for sensor data and some helper functions.
@@ -32,120 +44,129 @@ uint16_t BNO055_SAMPLERATE_DELAY_MS = 100;
 
 // Check I2C device address and correct line below (by default address is 0x29 or 0x28)
 //                                   id, address
-Adafruit_BNO055 bno = Adafruit_BNO055(55, 0x28, &Wire);
+Adafruit_BNO055 bno = Adafruit_BNO055(55, 0x28, "/dev/i2c-3");
 
 void setup(void)
 {
-  Serial.begin(115200);
 
-  while (!Serial) delay(10);  // wait for serial port to open!
-
-  Serial.println("Orientation Sensor Test"); Serial.println("");
+  log_msg("Orientation Sensor Test");
 
   /* Initialise the sensor */
   if (!bno.begin())
   {
     /* There was a problem detecting the BNO055 ... check your connections */
-    Serial.print("Ooops, no BNO055 detected ... Check your wiring or I2C ADDR!");
-    while (1);
+    log_msg("Ooops, no BNO055 detected ... Check your wiring or I2C ADDR!");
+    while (1)
+      ;
   }
 
   delay(1000);
 }
 
-void printEvent(sensors_event_t* event) {
-  double x = -1000000, y = -1000000 , z = -1000000; //dumb values, easy to spot problem
-  if (event->type == SENSOR_TYPE_ACCELEROMETER) {
-    Serial.print("Accl:");
+void printEvent(sensors_event_t *event)
+{
+  double x = -1000000, y = -1000000, z = -1000000; // dumb values, easy to spot problem
+  if (event->type == SENSOR_TYPE_ACCELEROMETER)
+  {
+    log_msg("Accl:");
     x = event->acceleration.x;
     y = event->acceleration.y;
     z = event->acceleration.z;
   }
-  else if (event->type == SENSOR_TYPE_ORIENTATION) {
-    Serial.print("Orient:");
+  else if (event->type == SENSOR_TYPE_ORIENTATION)
+  {
+    log_msg("Orient:");
     x = event->orientation.x;
     y = event->orientation.y;
     z = event->orientation.z;
   }
-  else if (event->type == SENSOR_TYPE_MAGNETIC_FIELD) {
-    Serial.print("Mag:");
+  else if (event->type == SENSOR_TYPE_MAGNETIC_FIELD)
+  {
+    log_msg("Mag:");
     x = event->magnetic.x;
     y = event->magnetic.y;
     z = event->magnetic.z;
   }
-  else if (event->type == SENSOR_TYPE_GYROSCOPE) {
-    Serial.print("Gyro:");
+  else if (event->type == SENSOR_TYPE_GYROSCOPE)
+  {
+    log_msg("Gyro:");
     x = event->gyro.x;
     y = event->gyro.y;
     z = event->gyro.z;
   }
-  else if (event->type == SENSOR_TYPE_ROTATION_VECTOR) {
-    Serial.print("Rot:");
+  else if (event->type == SENSOR_TYPE_ROTATION_VECTOR)
+  {
+    log_msg("Rot:");
     x = event->gyro.x;
     y = event->gyro.y;
     z = event->gyro.z;
   }
-  else if (event->type == SENSOR_TYPE_LINEAR_ACCELERATION) {
-    Serial.print("Linear:");
+  else if (event->type == SENSOR_TYPE_LINEAR_ACCELERATION)
+  {
+    log_msg("Linear:");
     x = event->acceleration.x;
     y = event->acceleration.y;
     z = event->acceleration.z;
   }
-  else if (event->type == SENSOR_TYPE_GRAVITY) {
-    Serial.print("Gravity:");
+  else if (event->type == SENSOR_TYPE_GRAVITY)
+  {
+    log_msg("Gravity:");
     x = event->acceleration.x;
     y = event->acceleration.y;
     z = event->acceleration.z;
   }
-  else {
-    Serial.print("Unk:");
+  else
+  {
+    log_msg("Unk:");
   }
 
-  Serial.print("\tx= ");
-  Serial.print(x);
-  Serial.print(" |\ty= ");
-  Serial.print(y);
-  Serial.print(" |\tz= ");
-  Serial.println(z);
+  std::string msg = " \tx= " + std::to_string(x) + " |\ty= " + std::to_string(y) + " |\tz= " + std::to_string(z);
+  log_msg(msg);
 }
 
 int main(void)
 {
   setup();
-  //could add VECTOR_ACCELEROMETER, VECTOR_MAGNETOMETER,VECTOR_GRAVITY...
-  sensors_event_t orientationData , angVelocityData , linearAccelData, magnetometerData, accelerometerData, gravityData;
-  bno.getEvent(&orientationData, Adafruit_BNO055::VECTOR_EULER);
-  bno.getEvent(&angVelocityData, Adafruit_BNO055::VECTOR_GYROSCOPE);
-  bno.getEvent(&linearAccelData, Adafruit_BNO055::VECTOR_LINEARACCEL);
-  bno.getEvent(&magnetometerData, Adafruit_BNO055::VECTOR_MAGNETOMETER);
-  bno.getEvent(&accelerometerData, Adafruit_BNO055::VECTOR_ACCELEROMETER);
-  bno.getEvent(&gravityData, Adafruit_BNO055::VECTOR_GRAVITY);
 
-  printEvent(&orientationData);
-  printEvent(&angVelocityData);
-  printEvent(&linearAccelData);
-  printEvent(&magnetometerData);
-  printEvent(&accelerometerData);
-  printEvent(&gravityData);
+  struct sigaction sigIntHandler;
 
-  int8_t boardTemp = bno.getTemp();
-  Serial.println();
-  Serial.print(F("temperature: "));
-  Serial.println(boardTemp);
+  sigIntHandler.sa_handler = my_handler;
+  sigemptyset(&sigIntHandler.sa_mask);
+  sigIntHandler.sa_flags = 0;
 
-  uint8_t system, gyro, accel, mag = 0;
-  bno.getCalibration(&system, &gyro, &accel, &mag);
-  Serial.println();
-  Serial.print("Calibration: Sys=");
-  Serial.print(system);
-  Serial.print(" Gyro=");
-  Serial.print(gyro);
-  Serial.print(" Accel=");
-  Serial.print(accel);
-  Serial.print(" Mag=");
-  Serial.println(mag);
+  sigaction(SIGINT, &sigIntHandler, NULL);
 
-  Serial.println("--");
-  delay(BNO055_SAMPLERATE_DELAY_MS);
+  while (true)
+  {
+
+    // could add VECTOR_ACCELEROMETER, VECTOR_MAGNETOMETER,VECTOR_GRAVITY...
+    sensors_event_t orientationData, angVelocityData, linearAccelData, magnetometerData, accelerometerData, gravityData;
+    bno.getEvent(&orientationData, Adafruit_BNO055::VECTOR_EULER);
+    bno.getEvent(&angVelocityData, Adafruit_BNO055::VECTOR_GYROSCOPE);
+    bno.getEvent(&linearAccelData, Adafruit_BNO055::VECTOR_LINEARACCEL);
+    bno.getEvent(&magnetometerData, Adafruit_BNO055::VECTOR_MAGNETOMETER);
+    bno.getEvent(&accelerometerData, Adafruit_BNO055::VECTOR_ACCELEROMETER);
+    bno.getEvent(&gravityData, Adafruit_BNO055::VECTOR_GRAVITY);
+
+    printEvent(&orientationData);
+    printEvent(&angVelocityData);
+    printEvent(&linearAccelData);
+    printEvent(&magnetometerData);
+    printEvent(&accelerometerData);
+    printEvent(&gravityData);
+
+    int8_t boardTemp = bno.getTemp();
+    std::string msg = "temperature: " + std::to_string(boardTemp);
+    log_msg(msg);
+
+    uint8_t system, gyro, accel, mag = 0;
+    bno.getCalibration(&system, &gyro, &accel, &mag);
+
+    msg = "Calibration: Sys=" + std::to_string(system) + " Gyro=" + std::to_string(gyro) + " Accel=" + std::to_string(accel) + " Mag=" + std::to_string(mag);
+    log_msg(msg);
+    log_msg("---");
+    delay(BNO055_SAMPLERATE_DELAY_MS);
+  }
+
+  return 0;
 }
-
