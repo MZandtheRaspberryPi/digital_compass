@@ -55,3 +55,9 @@ Magnetic      X:   2.21, Y:   9.87, Z: -43.70 uT
 ```
 docker run -it --entrypoint=/example_bno055.py --device /dev/i2c-1 mzandtheraspberrypi/pi4-ada-imu-python:2023-08-23
 ```
+
+## Changing the Image
+If you need to make a change to the image, you could change the Dockerfile or the .py files and then re-run the build command from this directory.
+```
+docker build -t pi4-ada-imu-python .
+```
