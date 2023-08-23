@@ -24,3 +24,35 @@ https://forums.raspberrypi.com/viewtopic.php?t=248439
  Enabling I2C3, with SDA on GPIO4 and SCL on GPIO5
 nano /boot/firmware/config.txt
 dtoverlay=i2c3,pins_4_5
+
+
+Dir structure
+```
+mz@mz-VirtualBox:~/digital_compass/i2c$ tree -L 2
+.
+├── Adafruit_BNO055
+│   ├── Adafruit_BNO055.cpp
+│   ├── Adafruit_BNO055.h
+│   ├── assets
+│   ├── code-of-conduct.md
+│   ├── examples
+│   ├── examples_processing
+│   ├── library.properties
+│   ├── LICENSE
+│   ├── OBJLoader
+│   ├── README.md
+│   └── utility
+├── Adafruit_Sensor
+│   ├── Adafruit_Sensor.cpp
+│   ├── Adafruit_Sensor.h
+│   ├── examples
+│   ├── library.properties
+│   ├── LICENSE.txt
+│   └── README.md
+├── CMakeLists.txt
+├── Dockerfile
+├── read_from_sensor.cpp
+└── README.md
+
+8 directories, 15 files
+```
