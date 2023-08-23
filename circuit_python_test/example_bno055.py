@@ -3,10 +3,12 @@
 import time
 import board
 import adafruit_bno055
-i2c = board.I2C() # uses board.SCL and board.SDA
-# i2c = board.STEMMA_I2C() # For using the built-in STEMMA QT connector on a
-microcontroller
-sensor = adafruit_bno055.BNO055_I2C(i2c)
+from adafruit_extended_bus import ExtendedI2C as I2C
+
+i2c = I2C(1)
+# i2c = board.I2C() # uses board.SCL and board.SDA
+# i2c = board.STEMMA_I2C() # For using the built-in STEMMA QT connector on a microcontroller
+sensor = adafruit_bno055.BNO055_I2C(i2c, address=0x1c)
 # If you are going to use UART uncomment these lines
 # uart = board.UART()
 # sensor = adafruit_bno055.BNO055_UART(uart)
