@@ -20,6 +20,12 @@ mikey@compass:~/digital_compass$ i2cdetect -y 3
 https://hackaday.com/2022/02/01/did-you-know-that-the-raspberry-pi-4-has-more-spi-i2c-uart-ports/
 https://forums.raspberrypi.com//viewtopic.php?f=29&t=302381
 https://forums.raspberrypi.com/viewtopic.php?t=248439
+https://github.com/raspberrypi/linux/issues/4884
+
+with default hardware i2c interface, can talk on pi 4. cpu usage 4-5%
+
+if we use software i2c:
+dtoverlay=i2c-gpio,i2c_gpio_sda=2,i2c_gpio_scl=3,i2c_gpio_delay_us=2,bus=3
 
  Enabling I2C3, with SDA on GPIO4 and SCL on GPIO5
 nano /boot/firmware/config.txt

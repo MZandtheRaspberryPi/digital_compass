@@ -44,7 +44,7 @@ uint16_t BNO055_SAMPLERATE_DELAY_MS = 100;
 
 // Check I2C device address and correct line below (by default address is 0x29 or 0x28)
 //                                   id, address
-Adafruit_BNO055 bno = Adafruit_BNO055(55, 0x29, "/dev/i2c-3");
+Adafruit_BNO055 bno = Adafruit_BNO055(55, 0x28, "/dev/i2c-3");
 
 void setup(void)
 {
@@ -138,6 +138,8 @@ int main(void)
   while (true)
   {
 
+    uint64_t start_time = millis();
+
     // could add VECTOR_ACCELEROMETER, VECTOR_MAGNETOMETER,VECTOR_GRAVITY...
     sensors_event_t orientationData, angVelocityData, linearAccelData, magnetometerData, accelerometerData, gravityData;
     bno.getEvent(&orientationData, Adafruit_BNO055::VECTOR_EULER);
@@ -163,6 +165,10 @@ int main(void)
 
     msg = "Calibration: Sys=" + std::to_string(system) + " Gyro=" + std::to_string(gyro) + " Accel=" + std::to_string(accel) + " Mag=" + std::to_string(mag);
     log_msg(msg);
+    uint64_t end_time = millis();
+    double loop_time_s = static_cast<double>(end_time - start_time) / 1000;
+    int loop_time_hz = 1 / loop_time_s;
+    log_msg("Loop rate (hz): " + std::to_string(loop_time_hz));
     log_msg("---");
     delay(BNO055_SAMPLERATE_DELAY_MS);
   }
