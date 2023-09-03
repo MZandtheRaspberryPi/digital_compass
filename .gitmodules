@@ -1,0 +1,6 @@
+[submodule "software/imu_broadcaster"]
+	path = software/imu_broadcaster
+	url = git@github.com:MZandtheRaspberryPi/imu_broadcaster.git
+[submodule "software/imu_filter_cpp"]
+	path = software/imu_filter_cpp
+	url = git@github.com:MZandtheRaspberryPi/imu_filter_cpp.git
