@@ -1,0 +1,17 @@
+services:
+  filter:
+    image: imu_web
+    stop_signal: SIGINT
+
+  broadcaster:
+    image: mzandtheraspberrypi/imu_websocket_broadcaster:2023-08-26
+    stop_signal: SIGINT
+    devices:
+      - "/dev/i2c-3:/dev/i2c-3"
+    entrypoint:
+      [
+        "/entrypoint/read_from_sensor",
+        "/dev/i2c-3",
+        "0x28",
+        "9000"
+      ]

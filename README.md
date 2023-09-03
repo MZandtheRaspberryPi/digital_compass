@@ -14,3 +14,7 @@ sudo reboot
 
 docker run hello-world
 ```
+
+```
+git clone git@github.com:MZandtheRaspberryPi/digital_compass.git --recurse-submodules
+```
