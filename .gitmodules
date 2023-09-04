@@ -4,3 +4,6 @@
 [submodule "software/imu_filter_cpp"]
 	path = software/imu_filter_cpp
 	url = git@github.com:MZandtheRaspberryPi/imu_filter_cpp.git
+[submodule "software/imu_visualizer"]
+	path = software/imu_visualizer
+	url = git@github.com:MZandtheRaspberryPi/imu_visualizer.git
