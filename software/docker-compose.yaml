@@ -17,7 +17,7 @@ services:
       ]
 
   visualizer:
-    image: vis
+    image: mzandtheraspberrypi/imu_websocket_visualizer:2023-09-10
     stop_signal: SIGINT
     devices:
       - "/dev/i2c-1"
