@@ -1,6 +1,6 @@
 services:
   filter:
-    image: filter #mzandtheraspberrypi/imu_websocket_filter:2023-09-10
+    image: mzandtheraspberrypi/imu_websocket_filter:2023-09-17
     stop_signal: SIGINT
 
   broadcaster:
