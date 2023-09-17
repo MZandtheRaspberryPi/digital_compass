@@ -1,10 +1,10 @@
 services:
   filter:
-    image: mzandtheraspberrypi/imu_websocket_filter:2023-09-10
+    image: filter #mzandtheraspberrypi/imu_websocket_filter:2023-09-10
     stop_signal: SIGINT
 
   broadcaster:
-    image: mzandtheraspberrypi/imu_websocket_broadcaster:2023-09-10
+    image: mzandtheraspberrypi/imu_websocket_broadcaster:2023-09-17
     stop_signal: SIGINT
     devices:
       - "/dev/i2c-3:/dev/i2c-3"
@@ -17,7 +17,7 @@ services:
       ]
 
   visualizer:
-    image: mzandtheraspberrypi/imu_websocket_visualizer:2023-09-10
+    image: vis #mzandtheraspberrypi/imu_websocket_visualizer:2023-09-10
     stop_signal: SIGINT
     devices:
       - "/dev/i2c-1"
