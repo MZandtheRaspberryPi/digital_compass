@@ -18,7 +18,8 @@ On libraries I created:
 * imu_visualizer -- a repo that listens to our orientation estimate and visualies this on the screen inside of the compass. It projects the 3d coordinate frame onto the 2d screen [here](https://github.com/MZandtheRaspberryPi/imu_visualizer).
 * imu_websockets -- a repo that contains wrappers for the third party websocketpp library to easily broadcast and listen, as well as our protobuffer message files and generated libraries [here](https://github.com/MZandtheRaspberryPi/imu_websockets).  
 * imu_filter -- a repo to use imu data and ground truth data [[2]](#2) and simulate our model as a proof of concept [here](https://github.com/MZandtheRaspberryPi/imu_filter).
-* Adafruit_BNO055 -- a repo I forked from Adafruit's implementation (see below in 3rd party library section) but heavily modified to build using CMake and to run on a raspberry pi instead of an Arduino board [here](https://github.com/MZandtheRaspberryPi/Adafruit_BNO055).
+* Adafruit_BNO055 -- a repo I forked from Adafruit's implementation (see below in 3rd party library section) but heavily modified to build using CMake and to run on a raspberry pi instead of an Arduino board [here](https://github.com/MZandtheRaspberryPi/Adafruit_BNO055).  
+* imu_adafruit_testing -- a repo to do initial tests that we can get sensor data in docker using some adafruit libraries and using 2 sensors [here](https://github.com/MZandtheRaspberryPi/imu_adafruit_testing).
 
 On third party libraries used:  
 * the Eigen3 Library and their Eigen::Matrix class to do linear algebra [here](https://eigen.tuxfamily.org/index.php?title=Main_Page).
