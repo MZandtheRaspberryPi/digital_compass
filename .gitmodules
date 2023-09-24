@@ -7,3 +7,6 @@
 [submodule "software/imu_visualizer"]
 	path = software/imu_visualizer
 	url = git@github.com:MZandtheRaspberryPi/imu_visualizer.git
+[submodule "maths/imu_filter"]
+	path = maths/imu_filter
+	url = git@github.com:MZandtheRaspberryPi/imu_filter.git
