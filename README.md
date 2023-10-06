@@ -3,12 +3,20 @@ firmware, cad, and documentation for my digital compass project
 
 
 ### Software  
-On the software side I wanted the project to be modular and I wanted to use C++ primarily. I seperated the project broadly into 3 components:  
+On the software side I seperated the project broadly into 3 components:  
 * publishing the measurements from the sensor
 * estimating orientation from the measurements
 * visualizing the orientation
 
-To help keep things modular I used docker where each of the above components ran in a docker container. They talked to each other through websockets and messages serialized using Google's protobuffer. I used mainly CMake as a build system.  
+Design considerations:
+* modular.
+* shared libraries for websockets and message serialization.
+* mainly c++.
+* for matrix operations compile time checking of dimensions.
+* only recreate the wheel for the filter algorithm, for the rest use libraries.
+* for filter algorithm, make it possible to try different system models (expanding state matrix to estimate position for example) as well as different filter algorithms (UKF, particle filter, for example). Enter templates.  
+
+To help keep things modular I used docker where each of the 3 components ran in a docker container. They talked to each other through websockets and messages serialized using Google's protobuffer. I used mainly CMake as a build system.  
 
 You can run the package by navigating to the software sub directory and using docker compose to launch the compass.  
 
