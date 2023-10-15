@@ -10,8 +10,8 @@ Firmware, cad, and documentation for my digital compass project. This is a proje
 On the software side I separated the project broadly into 3 components:  
 * publishing the measurements from the sensor
 * estimating orientation from the measurements
-* visualizing the orientation
-![visualizer_demo](assets/vis_demo.png)
+* visualizing the orientation  
+![visualizer_demo](assets/vis_demo.PNG)
 
 Design considerations:
 * modular.
