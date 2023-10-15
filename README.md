@@ -4,6 +4,8 @@ Firmware, cad, and documentation for my digital compass project. This is a proje
 
 ![compass_demo](assets/82od5m.gif)
 
+A video explanation is available [here](https://www.youtube.com/shorts/Pg_2u4VAHLg) and a video demo is available [here](https://www.youtube.com/shorts/pv6mBfAY-nU).  
+
 ### Software  
 On the software side I separated the project broadly into 3 components:  
 * publishing the measurements from the sensor
