@@ -1,10 +1,10 @@
 # digital_compass
+Firmware, cad, and documentation for my digital compass project. This is a project where I designed, manufactured, and coded a digital compass that uses an inertial measurement unit (IMU) to estimate orientation in 3d-space. I implemented an extended kalman filter to (EKF) to do the estimation. A video explanation is available [here](https://www.youtube.com/shorts/Pg_2u4VAHLg) and a video demo is available [here](https://www.youtube.com/shorts/pv6mBfAY-nU).  
+
 ![compass_pic](assets/IMG_0004.jpg)
-Firmware, cad, and documentation for my digital compass project. This is a project where I designed, manufactured, and coded a digital compass that uses an inertial measurement unit (IMU) to estimate orientation in 3d-space. I implemented an extended kalman filter to (EKF) to do the estimation.
+![compass_pic_2](assets/IMG_20231012_140624.jpg)  
+![compass_demo](assets/82od5m.gif)  
 
-![compass_demo](assets/82od5m.gif)
-
-A video explanation is available [here](https://www.youtube.com/shorts/Pg_2u4VAHLg) and a video demo is available [here](https://www.youtube.com/shorts/pv6mBfAY-nU).  
 
 ### Software  
 On the software side I separated the project broadly into 3 components:  
