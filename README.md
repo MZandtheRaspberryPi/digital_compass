@@ -1,12 +1,15 @@
 # digital_compass
-firmware, cad, and documentation for my digital compass project
+![compass_pic](assets/IMG_0004.jpg)
+Firmware, cad, and documentation for my digital compass project. This is a project where I designed, manufactured, and coded a digital compass that uses an inertial measurement unit (IMU) to estimate orientation in 3d-space. I implemented an extended kalman filter to (EKF) to do the estimation.
 
+![compass_demo](assets/82od5m.gif)
 
 ### Software  
-On the software side I seperated the project broadly into 3 components:  
+On the software side I separated the project broadly into 3 components:  
 * publishing the measurements from the sensor
 * estimating orientation from the measurements
 * visualizing the orientation
+![visualizer_demo](assets/vis_demo.png)
 
 Design considerations:
 * modular.
@@ -35,6 +38,10 @@ On third party libraries used:
 * adafruit libraries to talk to the Adafruit bno055 sensor dev board I used, namely the Adafruit_BNO055 library [here](https://github.com/adafruit/Adafruit_BNO055), though I heavily modified it to run on a raspberry pi instead of an Arduino board. Also the adafruit-circuitpython-ssd1306 library to write to the oled.
 * the libi2c-dev ubuntu library to talk to my sensor [here](https://packages.ubuntu.com/jammy/libi2c-dev).
 
+To run this, I used the docker compose file [here](software/docker-compose.yaml).  
+```
+docker compose up
+```
 
 ### Design and Manufacturing
 
@@ -65,10 +72,10 @@ And after:
 On the 3d Printing I used multi-color printing by doing a color change at a certain layer. With this I was able to get accent colors I quite liked.
 
 ### Maths
-A big part of this project was modelling a system that could take measurements from an inertial measurement unit including angular rotation, linear acceleration, and magnetic vector, and estimate orientation. For this, I implemented a model from a 2020 paper by Saito et al, [[1]](#1),  with minimal tweaks. This was actually the first thing I did in this project, where I worked in simulation for some time till I thought I could pull it off in real life. You can see more details in the maths subdirectory, but briefly I found some data from an IMU including ground truth data [here](https://github.com/agnieszkaszczesna/RepoIMU) [[2]](#2) and played this back in simulation and implemented a model to try and match the ground truth data given sensor measurements. You can see this simulation output below, where it is not perfect and it jumps sometimes, but it is not worlds apart either:  
+A big part of this project was modelling a system that could take measurements from an inertial measurement unit including angular rotation, linear acceleration, and magnetic vector, and estimate orientation. For this, I implemented a model from a 2020 paper by Saito et al, [[1]](#1),  with minimal tweaks. This was actually the first thing I did in this project, where I worked in simulation for some time till I thought I could pull it off in real life. You can see more details in the maths subdirectory and the .pdf write up in that directory [here](https://github.com/MZandtheRaspberryPi/imu_filter/blob/main/write_up/project_writeup.pdf), but briefly I found some data from an IMU including ground truth data [here](https://github.com/agnieszkaszczesna/RepoIMU) [[2]](#2) and played this back in simulation and implemented a model to try and match the ground truth data given sensor measurements. You can see this simulation output below, where it is not perfect and it jumps sometimes, but it is not worlds apart either:  
 ![simulation](assets/estimate_vs_ground_truth.png)  
 
-I use an Extended Kalman Filter to model the system and make estimeates of my state, which is x rotation, y rotation, z rotation.
+I use an Extended Kalman Filter to model the system and make estimates of my state, which is x rotation, y rotation, z rotation.
 
 To transition from one state at time t=0 to another state at time t=1, see the below. This looks complicated, but really we are taking our prior orientation, and adding the change in orientation to it. We take the angular rotation from our gyroscope, rotate it into our world frame, and then multiply by change in time and add it to our prior estimate:  
 ![transition_state](assets/state_transition.PNG)  
