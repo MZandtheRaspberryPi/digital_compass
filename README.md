@@ -45,6 +45,12 @@ To run this, I used the docker compose file [here](software/docker-compose.yaml)
 docker compose up
 ```
 
+Or you could add something like the below to your cronjobs:
+```
+@reboot sleep 30; /usr/bin/docker compose -f /home/mikey/digital_compass/software/docker-compose.yaml up
+```
+
+
 ### Design and Manufacturing
 
 I designed the compass using Fusion 360 to look nice, be easily be assembled and disassembled, and be 3d printable. You can find design files in the cad_and_ecad folder.  
